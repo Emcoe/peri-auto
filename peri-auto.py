@@ -37,22 +37,34 @@ try:
 		for entry in golist:
 			with open('todolist.txt', 'a') as final:
 				final.write('\n'+entry)
+		print('List written')
+
+		subprocess.call(["youtube-dl","-o","%(upload_date)s-%(title)s-%(id)s.%(ext)s","-x","--audio-format","m4a","--audio-quality","64K","--batch-file","todolist.txt"])
+
 		with open('prefs.txt', 'a') as final:
 			final.write('\n')
 		for entry in golist:
 			with open('prefs.txt', 'a') as final:
 				final.write('\n'+entry)
+		with open('backuplistofseenURLs.txt', 'a') as final:
+			final.write('\n')
 		for entry in golist:
 			with open('backuplistofseenURLs.txt', 'a') as final:
 				final.write('\n'+entry)
-		print('Lists written')
-
-		subprocess.call(["youtube-dl","-o","%(upload_date)s-%(title)s-%(id)s.%(ext)s","-x","--audio-format","m4a","--audio-quality","64K","--batch-file","todolist.txt"])
+		try:
+			os.remove("peri-auto.wget")
+		except FileNotFoundError:
+			pass
+		try:
+			os.remove("todolist.txt")
+		except FileNotFoundError:
+			pass
 		print('Success!')
+
 	else:
 		print('No new prospects, ending.')
 
 except FileNotFoundError:
-	print("prefs.txt created, change the first line to the URL of the Periscoper you're trying to download from. Below the first line, paste in URLS of any broadcasts you've already seen, and don't want to download!")
+	print("prefs.txt created, change the first line to the URL of the Periscoper you're trying to download from. Below the first line, paste in URLs of any broadcasts you've already seen, and don't want to download!")
 	with open('prefs.txt', 'a') as f:
-		f.write("https://www.periscope.tv/ABC/\n-----Above this line is the Periscope URL you want to download, and below are any broadcasts you've already seen-----\n")
+		f.write("https://www.periscope.tv/ABC/\n-----Above this line is the Periscoper's URL you want to download, and below are any broadcasts you've already seen-----\n")
