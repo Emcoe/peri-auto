@@ -47,7 +47,7 @@ try:
 				final.write('\n'+entry)
 		print('Lists written')
 
-		# subprocess.call(["youtube-dl","-o","%(upload_date)s-%(title)s-%(id)s.%(ext)s","-x","--audio-format","m4a","--audio-quality","64K","--batch-file","todolist.txt"])
+		subprocess.call(["youtube-dl","-o","%(upload_date)s-%(title)s-%(id)s.%(ext)s","-x","--audio-format","m4a","--audio-quality","64K","--batch-file","todolist.txt"])
 		print('Success!')
 	else:
 		print('No new prospects, ending.')
