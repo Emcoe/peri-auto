@@ -4,7 +4,14 @@ try:
 except FileNotFoundError:
 	print('No periscope-automatordownload.wget to delete, moving on...')
 
-wget.download("https://www.periscope.tv/\\\\\\\\\/", "periscope-automatordownload.wget")
+try:
+	with open('prefs.txt') as f:
+		targetURL = f.readline().strip()
+	wget.download(targetURL, "periscope-automatordownload.wget")
+except FileNotFoundError:
+	print("prefs.txt created, change the first line to the URL of the Periscoper you're trying to download from. Below the first line, paste in URLS of any broadcasts you've already seen, and don't want to download!")
+	with open('prefs.txt', 'a') as f:
+		f.write("https://www.periscope.tv/ABC/\n")
 
 with open('periscope-automatordownload.wget', 'r') as veryrawsource:
 	rawsource = veryrawsource.read().replace('\n', '')
@@ -22,7 +29,7 @@ print('Prospects found:',len(results))
 golist = []
 entry = ""
 
-with open('\\\\\\\\\completedlist.txt', 'r') as veryrawsource:
+with open('prefs.txt', 'r') as veryrawsource:
 	rawsource = veryrawsource.read().replace('\n', '')
 
 for entry in results:
