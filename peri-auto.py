@@ -37,18 +37,30 @@ try:
 		for entry in golist:
 			with open('todolist.txt', 'a') as final:
 				final.write('\n'+entry)
+		print('List written')
+
+		subprocess.call(["youtube-dl","-o","%(upload_date)s-%(title)s-%(id)s.%(ext)s","-x","--audio-format","m4a","--audio-quality","64K","--batch-file","todolist.txt"])
+
 		with open('prefs.txt', 'a') as final:
 			final.write('\n')
 		for entry in golist:
 			with open('prefs.txt', 'a') as final:
 				final.write('\n'+entry)
+		with open('backuplistofseenURLs.txt', 'a') as final:
+			final.write('\n')
 		for entry in golist:
 			with open('backuplistofseenURLs.txt', 'a') as final:
 				final.write('\n'+entry)
-		print('Lists written')
-
-		# subprocess.call(["youtube-dl","-o","%(upload_date)s-%(title)s-%(id)s.%(ext)s","-x","--audio-format","m4a","--audio-quality","64K","--batch-file","todolist.txt"])
+		try:
+			os.remove("peri-auto.wget")
+		except FileNotFoundError:
+			pass
+		try:
+			os.remove("todolist.txt")
+		except FileNotFoundError:
+			pass
 		print('Success!')
+
 	else:
 		print('No new prospects, ending.')
 
