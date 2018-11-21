@@ -18,6 +18,12 @@ try:
 	segment = segment[:endpos]
 	results = segment.split('&quot;,&quot;')
 
+
+	try:
+		os.remove("peri-auto.wget")
+	except FileNotFoundError:
+		pass
+
 	print('')
 	print('Broadcasts found on',targetURL,":",len(results))
 	
