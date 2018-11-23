@@ -1,4 +1,4 @@
-# peri-auto
+# peri-auto v1.0
 #### Turn your favorite Periscoper into a podcast
 
 This simple utility downloads a Periscoper's user broadcasts page (e.g. https://www.periscope.tv/ABC/) and extracts the 100 recent broadcast links. It compares these to a list of links you've already seen, then downloads the new ones. These are passed to youtube-dl for downloading and conversion to 64k .m4a files with appropriate names.
