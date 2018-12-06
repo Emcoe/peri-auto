@@ -67,8 +67,6 @@ try:
 			pass
 		print('Success!')
 
-	else:
-		print('No new prospects, ending.')
 
 except FileNotFoundError:
 	print("prefs.txt created, change the first line to the URL of the Periscoper you're trying to download from. Below the first line, paste in URLs of any broadcasts you've already seen, and don't want to download!")
