@@ -80,7 +80,6 @@ if len(golist) > 0:
     for entry in golist:
         with open("todolist.txt", 'a') as final:
             final.write('\n'+entry)
-    print('List written')
 
     subprocess.call(["youtube-dl", "-o",
                      "%(upload_date)s-%(title)s-%(id)s.%(ext)s",
