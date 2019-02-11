@@ -4,7 +4,7 @@ import subprocess
 import wget
 
 audiopath = ""
-print('Peri-auto v1.1')
+print('Peri-auto v1.1.2')
 
 
 def print_lists():
@@ -126,10 +126,10 @@ if len(golist) > 0:
     while retries >= count:
         try:
             subprocess.check_call(importcommand)
-            print("subprocess", count, "succeeded, printing:")
+            # print("Attempt", count, "succeeded, printing:")
             print_lists()
-            print("printed", count)
+            # print("Attempt", count)
             break
         except subprocess.CalledProcessError:
-            print("subprocess", count, "failed")
+            # print("Attempt", count, "failed")
             count += 1
