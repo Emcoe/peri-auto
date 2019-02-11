@@ -1,4 +1,4 @@
-# peri-auto v1.1
+# peri-auto v1.1.1
 #### Turn your favorite Periscoper into a podcast
 
 
