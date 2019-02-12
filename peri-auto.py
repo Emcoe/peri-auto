@@ -4,7 +4,7 @@ import subprocess
 import wget
 
 audiopath = ""
-print('Peri-auto v1.1.2')
+print('Peri-auto v1.1.3')
 
 
 def print_lists():
@@ -43,7 +43,7 @@ try:
     with open('prefs.txt') as f:
         targetURL = f.readline().strip()
         line2 = f.readline().strip()
-        if line2[0:4] != "-----":
+        if line2[0:4] != "----":
             audiopath = line2
     catchupflag = False
 except FileNotFoundError:
