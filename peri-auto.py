@@ -2,36 +2,45 @@
 import os
 import subprocess
 import wget
+import youtube_dl
 
 audiopath = ""
-print('Peri-auto v1.1.4')
+print('Peri-auto v1.1.5')
 
 
 def print_lists():
-    with open('prefs.txt',
-              'a') as final:
+    with open('prefs.txt', 'a') as final:
         final.write('\n')
     for entry in golist:
-        with open('prefs.txt',
-                  'a') as final:
+        with open('prefs.txt', 'a') as final:
             final.write('\n'+entry)
     with open("backuplistofseenURLs.txt", 'a') as final:
         final.write('\n')
     for entry in golist:
-        with open(
-                  "backuplistofseenURLs.txt", 'a') as final:
+        with open("backuplistofseenURLs.txt", 'a') as final:
             final.write('\n'+entry)
     try:
-        os.remove(
-                  "peri-auto.wget")
+        os.remove("peri-auto.wget")
     except FileNotFoundError:
         pass
     try:
-        os.remove(
-                  "todolist.txt")
+        os.remove("todolist.txt")
     except FileNotFoundError:
         pass
     print('Success!')
+
+
+def live_test(testURL):
+    ydl = youtube_dl.YoutubeDL({'outtmpl': '%(id)s%(ext)s'})
+    live = False
+    with ydl:
+        liveresult = ydl.extract_info(
+            testURL,
+            download=False
+            )
+    if "hls" in liveresult['formats'][0]['format_id']:
+        live = True
+    return live
 
 
 try:
@@ -43,7 +52,7 @@ try:
     with open('prefs.txt') as f:
         targetURL = f.readline().strip()
         line2 = f.readline().strip()
-        if line2[0:4] != "----":
+        if line2[0:4] != "-----":
             audiopath = line2
     catchupflag = False
 except FileNotFoundError:
@@ -55,8 +64,7 @@ except FileNotFoundError:
 # How to handle incorrect username input?
     targetURL = "https://www.periscope.tv/" + newtarget + "/"
 
-wget.download(targetURL,
-              "peri-auto.wget")
+wget.download(targetURL, "peri-auto.wget")
 
 with open('peri-auto.wget',
           'r') as veryrawsource:
@@ -67,8 +75,14 @@ endpos = segment.find("]") - 6
 segment = segment[:endpos]
 results = segment.split('&quot;,&quot;')
 resultsnum = len(results)
+
 print('')
-print('Broadcasts found on', targetURL, ":", resultsnum)
+
+if live_test("https://www.pscp.tv/w/" + results[0]) is True:
+    print("Skipping currently live broadcast")
+    results = results[1:]
+
+print('Archived broadcasts found on', targetURL, ":", resultsnum)
 
 try:
     os.remove("peri-auto.wget")
@@ -98,23 +112,21 @@ if catchupflag is True:
 with open('prefs.txt', 'r') \
         as veryrawsource:
     rawsource = veryrawsource.read().replace('\n', '')
+
+
+for entry in results:
+    if rawsource.find(str(entry)) is -1:
+        golist.append("https://www.pscp.tv/w/" + entry)
 if catchupflag is False:
-    for entry in results:
-        if rawsource.find(str(entry)) is -1:
-            golist.append("https://www.pscp.tv/w/" + entry)
     print('Broadcasts not already in prefs.txt:', len(golist))
 else:
-    for entry in results:
-        if rawsource.find(str(entry)) is -1:
-            golist.append("https://www.pscp.tv/w/" + entry)
-        golist = golist[:int(catchup)]
+    golist = golist[:int(catchup)]
 
 if len(golist) > 0:
     open('todolist.txt',
          'w').close()
     for entry in golist:
-        with open(
-                  "todolist.txt", 'a') as final:
+        with open("todolist.txt", 'a') as final:
             final.write('\n'+entry)
 
     if audiopath == "":
