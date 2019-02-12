@@ -4,7 +4,7 @@ import subprocess
 import wget
 
 audiopath = ""
-print('Peri-auto v1.1.3')
+print('Peri-auto v1.1.4')
 
 
 def print_lists():
@@ -117,9 +117,14 @@ if len(golist) > 0:
                   "todolist.txt", 'a') as final:
             final.write('\n'+entry)
 
-    importcommand = ["youtube-dl", "-o", audiopath, "-x", "--audio-format",
-                     "m4a", "--audio-quality", "64K", "--batch-file",
-                     "todolist.txt"]
+    if audiopath == "":
+        importcommand = ["youtube-dl", "-x", "--audio-format",
+                         "m4a", "--audio-quality", "64K", "--batch-file",
+                         "todolist.txt"]
+    else:
+        importcommand = ["youtube-dl", "-o", audiopath, "-x",
+                         "--audio-format", "m4a", "--audio-quality", "64K",
+                         "--batch-file", "todolist.txt"]
 
     retries = 5
     count = 1
